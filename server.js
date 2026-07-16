@@ -6,12 +6,30 @@ const authRoutes = require('./routes/auth')
 const eventRoutes = require('./routes/events')
 const bookingRoutes= require('./routes/bookings')
 dotenv.config()
+const app = express()
 
 app.use(express.json())
-app.use(cors({
-    origin: process.env.FRONTEND_URL,
+
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://eventora-swart.vercel.app"
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
-}));
+  })
+);
 //routes
 app.get("/", (req, res) => {
     res.send("Eventora Backend is Running 🚀");
