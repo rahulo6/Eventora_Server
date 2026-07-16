@@ -10,6 +10,9 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 //routes
+app.get("/", (req, res) => {
+    res.send("Eventora Backend is Running 🚀");
+});
 app.use('/api/auth', authRoutes) 
 app.use('/api/events',eventRoutes)
 app.use('/api/bookings',bookingRoutes)
